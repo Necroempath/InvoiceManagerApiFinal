@@ -21,11 +21,11 @@ public class AuthService : IAuthService
     {
         var user = await _userManager.FindByEmailAsync(request.Email);
 
-        if (user is null) return null;
+        if (user is null) new ArgumentException($"Invalid email or password");
 
         var isPasswordValid = await _userManager.CheckPasswordAsync(user, request.Password);
 
-        if (!isPasswordValid) return null;
+        if (!isPasswordValid) new ArgumentException($"Invalid email or password");
 
         return _mapper.Map<AuthResponseDto>(user);
     }
@@ -35,13 +35,13 @@ public class AuthService : IAuthService
         var isUserExists = await _userManager
             .FindByEmailAsync(request.Email);
 
-        if (isUserExists is not null) return null;
+        if (isUserExists is not null) new ArgumentException($"User by such email already exists");
 
         var user = _mapper.Map<User>(request);
 
         var result = await _userManager.CreateAsync(user, request.Password);
 
-        if (!result.Succeeded) return null;
+        if (!result.Succeeded) new Exception("Something got wrong. We are working on it");
 
         return _mapper.Map<AuthResponseDto>(user);
     }

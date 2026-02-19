@@ -63,9 +63,6 @@ public class InvoiceController : ControllerBase
     {
         var invoice = await _service.GetByIdAsync(id);
 
-        if (invoice is null)
-            return NotFound(ApiResponse<InvoiceResponseDto>.ErrorResponse($"Invoice by given id {id} not found"));
-
         return Ok(ApiResponse<InvoiceResponseDto>.SuccessResponse(invoice));
     }
 
@@ -97,9 +94,6 @@ public class InvoiceController : ControllerBase
 
         var invoice = await _service.CreateAsync(request);
 
-        if (invoice is null)
-            return BadRequest(ApiResponse<InvoiceResponseDto>.ErrorResponse("Customer by given ID not found"));
-
         return CreatedAtAction(
             nameof(GetById),
             new { id = invoice.Id },
@@ -117,9 +111,6 @@ public class InvoiceController : ControllerBase
     {
         bool isDeleted = await _service.DeleteSoftAsync(id);
 
-        if (!isDeleted)
-            return NotFound(ApiResponse<object>.ErrorResponse($"Invoice by given id {id} not found"));
-
         return Ok(ApiResponse<object>.SuccessResponse(null, "Invoice soft deleted successfully"));
     }
 
@@ -133,9 +124,6 @@ public class InvoiceController : ControllerBase
     public async Task<ActionResult<ApiResponse<object>>> DeleteHard(int id)
     {
         bool isDeleted = await _service.DeleteHardAsync(id);
-
-        if (!isDeleted)
-            return NotFound(ApiResponse<object>.ErrorResponse($"Invoice by given id {id} not found"));
 
         return Ok(ApiResponse<object>.SuccessResponse(null, "Invoice permanently deleted successfully"));
     }
@@ -153,9 +141,6 @@ public class InvoiceController : ControllerBase
     {
         var invoice = await _service.UpdateAsync(id, request);
 
-        if (invoice is null)
-            return NotFound(ApiResponse<InvoiceResponseDto>.ErrorResponse($"Invoice by given id {id} not found"));
-
         return Ok(ApiResponse<InvoiceResponseDto>.SuccessResponse(invoice, "Invoice updated successfully"));
     }
 
@@ -171,9 +156,6 @@ public class InvoiceController : ControllerBase
     public async Task<ActionResult<ApiResponse<InvoiceResponseDto>>> StatusChange(int id, [FromBody] InvoiceStatusChangeRequest request)
     {
         var invoice = await _service.StatusChangeAsync(id, request);
-
-        if (invoice is null)
-            return BadRequest(ApiResponse<InvoiceResponseDto>.ErrorResponse("Either ID or Status is incorrect"));
 
         return Ok(ApiResponse<InvoiceResponseDto>.SuccessResponse(invoice, "Invoice status updated successfully"));
     }

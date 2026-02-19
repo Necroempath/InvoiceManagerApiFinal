@@ -65,9 +65,6 @@ public class CustomerController : ControllerBase
     {
         var customer = await _service.GetByIdAsync(id);
 
-        if (customer is null)
-            return NotFound(ApiResponse<CustomerResponseDto>.ErrorResponse($"Customer by given id {id} not found"));
-
         return Ok(ApiResponse<CustomerResponseDto>.SuccessResponse(customer));
     }
 
@@ -108,9 +105,6 @@ public class CustomerController : ControllerBase
     {
         bool isDeleted = await _service.DeleteSoftAsync(id);
 
-        if (!isDeleted)
-            return NotFound(ApiResponse<object>.ErrorResponse($"Customer by given id {id} not found"));
-
         return Ok(ApiResponse<object>.SuccessResponse(null, "Customer soft deleted successfully"));
     }
 
@@ -129,9 +123,6 @@ public class CustomerController : ControllerBase
     {
         bool isDeleted = await _service.DeleteHardAsync(id);
 
-        if (!isDeleted)
-            return NotFound(ApiResponse<object>.ErrorResponse($"Customer by given id {id} not found"));
-
         return Ok(ApiResponse<object>.SuccessResponse(null, "Customer permanently deleted successfully"));
     }
 
@@ -149,9 +140,6 @@ public class CustomerController : ControllerBase
     public async Task<ActionResult<ApiResponse<CustomerResponseDto>>> Update(int id, [FromBody] CustomerUpdateRequest request)
     {
         var customer = await _service.UpdateAsync(id, request);
-
-        if (customer is null)
-            return NotFound(ApiResponse<CustomerResponseDto>.ErrorResponse($"Customer by given id {id} not found"));
 
         return Ok(ApiResponse<CustomerResponseDto>.SuccessResponse(customer, "Customer updated successfully"));
     }

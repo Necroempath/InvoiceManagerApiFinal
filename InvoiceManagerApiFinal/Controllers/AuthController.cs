@@ -33,12 +33,6 @@ public class AuthController : ControllerBase
     {
         var response = await _authService.LoginAsync(request);
 
-        if (response is null) return Unauthorized(new ApiResponse<AuthResponseDto>
-        {
-            Success = false,
-            Message = "Invalid email or password"
-        });
-
         return Ok(ApiResponse<AuthResponseDto>.SuccessResponse(response));
     }
 
@@ -57,12 +51,6 @@ public class AuthController : ControllerBase
     public async Task<ActionResult<ApiResponse<AuthResponseDto>>> Register([FromBody] RegisterRequestDto request)
     {
         var response = await _authService.RegisterAsync(request);
-
-        if (response is null) return Unauthorized(new ApiResponse<AuthResponseDto>
-        {
-            Success = false,
-            Message = "User with such email already exists"
-        });
 
         return Ok(ApiResponse<AuthResponseDto>.SuccessResponse(response));
     }

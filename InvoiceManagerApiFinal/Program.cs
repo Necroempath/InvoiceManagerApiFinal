@@ -6,6 +6,7 @@ using InvoiceManagerApi.Mappings;
 using InvoiceManagerApi.Services.Implementations;
 using InvoiceManagerApi.Services.Interfaces;
 using InvoiceManagerApi.Validators.CustomerValidators;
+using InvoiceManagerApiFinal.Middlewares;
 using InvoiceManagerApiFinal.Models;
 using InvoiceManagerApiFinal.Services.Implementations;
 using InvoiceManagerApiFinal.Services.Interfaces;
@@ -99,6 +100,10 @@ if (app.Environment.IsDevelopment())
         });
     app.MapOpenApi();
 }
+
+app.UseMiddleware<GlobalExceptionMiddleware>();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

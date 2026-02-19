@@ -5,7 +5,6 @@ namespace InvoiceManagerApiFinal.Models;
 
 public class User : IdentityUser
 {
-    public string Name { get; set; } = null!;
     public string Password { get; set; } = null!;
     public string? Address { get; set; }
     public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;

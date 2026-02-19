@@ -44,9 +44,6 @@ public class InvoiceRowController : ControllerBase
     {
         var invoiceRow = await _service.GetByIdAsync(id);
 
-        if (invoiceRow is null)
-            return NotFound(ApiResponse<InvoiceRowResponseDto>.ErrorResponse($"InvoiceRow by given id {id} not found"));
-
         return Ok(ApiResponse<InvoiceRowResponseDto>.SuccessResponse(invoiceRow));
     }
 
@@ -78,9 +75,6 @@ public class InvoiceRowController : ControllerBase
 
         var invoiceRow = await _service.CreateAsync(request);
 
-        if (invoiceRow is null)
-            return BadRequest(ApiResponse<InvoiceRowResponseDto>.ErrorResponse("Invoice by given ID not found"));
-
         return CreatedAtAction(
             nameof(GetById),
             new { id = invoiceRow.Id },
@@ -98,9 +92,6 @@ public class InvoiceRowController : ControllerBase
     {
         bool isDeleted = await _service.DeleteHardAsync(id);
 
-        if (!isDeleted)
-            return NotFound(ApiResponse<object>.ErrorResponse($"InvoiceRow by given id {id} not found"));
-
         return Ok(ApiResponse<object>.SuccessResponse(null, "Invoice row permanently deleted successfully"));
     }
 
@@ -116,9 +107,6 @@ public class InvoiceRowController : ControllerBase
     public async Task<ActionResult<ApiResponse<InvoiceRowResponseDto>>> Update(int id, [FromBody] InvoiceRowUpdateRequest request)
     {
         var invoiceRow = await _service.UpdateAsync(id, request);
-
-        if (invoiceRow is null)
-            return NotFound(ApiResponse<InvoiceRowResponseDto>.ErrorResponse($"InvoiceRow by given id {id} not found"));
 
         return Ok(ApiResponse<InvoiceRowResponseDto>.SuccessResponse(invoiceRow, "Invoice row updated successfully"));
     }

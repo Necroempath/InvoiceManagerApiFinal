@@ -22,7 +22,7 @@ public class InvoiceRowService : IInvoiceRowService
     {
         var invoice = await _context.Invoices.FirstOrDefaultAsync(c => c.Id == request.InvoiceId);
 
-        if (invoice is null) return null;
+        if (invoice is null) new KeyNotFoundException($"Invoice by id {request.InvoiceId} doesn't exist");
 
         var invoiceRow = _mapper.Map<InvoiceRow>(request);
 
@@ -40,7 +40,7 @@ public class InvoiceRowService : IInvoiceRowService
         InvoiceRow? invoiceRow = await _context.InvoiceRows
              .FirstOrDefaultAsync(ir => ir.Id == id);
 
-        if (invoiceRow is null) return false;
+        if (invoiceRow is null) new KeyNotFoundException($"Invoice row by id {id} doesn't exist");
 
         _context.InvoiceRows.Remove(invoiceRow);
 
@@ -63,7 +63,7 @@ public class InvoiceRowService : IInvoiceRowService
         var invoiceRow = await _context.InvoiceRows
                 .FirstOrDefaultAsync(ir => ir.Id == id);
 
-        if (invoiceRow is null) return null;
+        if (invoiceRow is null) new KeyNotFoundException($"Invoice row by id {id} doesn't exist");
 
         return _mapper.Map<InvoiceRowResponseDto>(invoiceRow);
     }
@@ -83,7 +83,7 @@ public class InvoiceRowService : IInvoiceRowService
         var invoiceRow = await _context.InvoiceRows
         .FirstOrDefaultAsync(ir => ir.Id == id);
 
-        if (invoiceRow is null) return null;
+        if (invoiceRow is null) new KeyNotFoundException($"Invoice row by id {id} doesn't exist");
 
         var invoice = await _context.Invoices
             .FirstOrDefaultAsync(i => 

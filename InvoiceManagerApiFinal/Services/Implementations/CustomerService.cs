@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure.Core;
 using InvoiceManagerApi.Common;
 using InvoiceManagerApi.Data;
 using InvoiceManagerApi.DTOs.CustomerDTOs;
@@ -24,7 +25,7 @@ public class CustomerService : ICustomerService
         var isUserExists = await _context.Users
             .AnyAsync(u => u.Id == request.UserId);
 
-        if (!isUserExists) return null;            
+        if (!isUserExists) throw new KeyNotFoundException($"User by id {request.UserId} doesn't exist");
 
         Customer customer = _mapper.Map<Customer>(request);
 
@@ -53,7 +54,7 @@ public class CustomerService : ICustomerService
             .ThenInclude(i => i.Rows)
             .FirstOrDefaultAsync(c => c.DeletedAt == null && c.Id == id);
 
-        if (customer is null) return null;
+        if (customer is null) throw new KeyNotFoundException($"Customer by id {id} doesn't exist");
 
         return _mapper.Map<CustomerResponseDto>(customer);
     }
@@ -63,7 +64,7 @@ public class CustomerService : ICustomerService
         Customer? customer = await _context.Customers
             .FirstOrDefaultAsync(c => c.DeletedAt == null && c.Id == id && c.Invoices.Count() == 0);
 
-        if (customer is null) return false;
+        if (customer is null) throw new KeyNotFoundException($"Customer by id {id} doesn't exist");
 
         _context.Customers.Remove(customer);
 
@@ -77,7 +78,7 @@ public class CustomerService : ICustomerService
         Customer? customer = await _context.Customers
             .FirstOrDefaultAsync(c => c.DeletedAt == null && c.Id == id);
 
-        if (customer is null) return false;
+        if (customer is null) throw new KeyNotFoundException($"Customer by id {id} doesn't exist");
 
         customer.DeletedAt = DateTimeOffset.UtcNow;
 
@@ -92,9 +93,9 @@ public class CustomerService : ICustomerService
             .Include(c => c.Invoices)
             .FirstOrDefaultAsync(c => c.DeletedAt == null && c.Id == id);
 
-        if (customer is null) return null;
+        if (customer is null) throw new KeyNotFoundException($"Customer by id {id} doesn't exist");
 
-       _mapper.Map(request, customer);
+        _mapper.Map(request, customer);
 
         await _context.SaveChangesAsync();
 

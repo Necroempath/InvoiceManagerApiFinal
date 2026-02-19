@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure.Core;
 using InvoiceManagerApi.Common;
 using InvoiceManagerApi.Data;
 using InvoiceManagerApi.DTOs.InvoiceDTOs;
@@ -25,7 +26,7 @@ public class InvoiceService : IInvoiceService
     {
         var isCustomerExists = await _context.Customers.AnyAsync(c => c.DeletedAt == null && c.Id == request.CustomerId);
     
-        if (!isCustomerExists) return null;
+        if (!isCustomerExists) new KeyNotFoundException($"Customer by id {request.CustomerId} doesn't exist");
 
         var invoice = _mapper.Map<Invoice>(request);
 
@@ -41,7 +42,7 @@ public class InvoiceService : IInvoiceService
         Invoice? invoice = await _context.Invoices
             .FirstOrDefaultAsync(i => i.DeletedAt == null && i.Id == id && i.Status == InvoiceStatus.Created);
 
-        if (invoice is null) return false;
+        if (invoice is null) new KeyNotFoundException($"Invoice by id {id} doesn't exist");
 
         _context.Invoices.Remove(invoice);
 
@@ -55,7 +56,7 @@ public class InvoiceService : IInvoiceService
         Invoice? invoice = await _context.Invoices
             .FirstOrDefaultAsync(i => i.DeletedAt == null && i.Id == id);
 
-        if (invoice is null) return false;
+        if (invoice is null) new KeyNotFoundException($"Invoice by id {id} doesn't exist");
 
         invoice.DeletedAt = DateTimeOffset.UtcNow;
 
@@ -141,7 +142,7 @@ public class InvoiceService : IInvoiceService
                         .Include(i => i.Rows)
                         .FirstOrDefaultAsync(i => i.DeletedAt == null && i.Id == id);
 
-        if (invoice is null) return null;
+        if (invoice is null) new KeyNotFoundException($"Invoice by id {id} doesn't exist");
 
         return _mapper.Map<InvoiceResponseDto>(invoice);
     }
@@ -153,8 +154,8 @@ public class InvoiceService : IInvoiceService
                 .Include(i => i.Rows)
                 .FirstOrDefaultAsync(i => i.DeletedAt == null && i.Id == id);
 
-        if (invoice is null) return null;
-        
+        if (invoice is null) new ArgumentException($"Invoice by id {id} doesn't exist");
+
         invoice.Status = request.Status;
 
         await _context.SaveChangesAsync();
@@ -169,7 +170,7 @@ public class InvoiceService : IInvoiceService
                 .Include(i => i.Rows)
                 .FirstOrDefaultAsync(i => i.DeletedAt == null && i.Id == id && i.Status == InvoiceStatus.Created);
 
-        if (invoice is null) return null;
+        if (invoice is null) new ArgumentException($"Invoice by id {id} doesn't exist");
 
         _mapper.Map(request, invoice);
 

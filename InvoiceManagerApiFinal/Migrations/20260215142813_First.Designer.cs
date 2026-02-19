@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InvoiceManagerApiFinal.Migrations
 {
     [DbContext(typeof(InvoiceManagerDbContext))]
-    [Migration("20260215084035_First")]
+    [Migration("20260215142813_First")]
     partial class First
     {
         /// <inheritdoc />
@@ -185,10 +185,6 @@ namespace InvoiceManagerApiFinal.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)

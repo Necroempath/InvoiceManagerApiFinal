@@ -9,7 +9,7 @@ public class RegisterRequestDto
     /// User Name
     /// </summary>
     /// <example>John</example>
-    public string Name { get; set; } = null!;
+    public string UserName { get; set; } = null!;
 
     /// <summary>
     /// User Email
