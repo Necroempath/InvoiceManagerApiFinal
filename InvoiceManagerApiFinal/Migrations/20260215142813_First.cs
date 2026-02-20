@@ -31,6 +31,7 @@ namespace InvoiceManagerApiFinal.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),

@@ -28,7 +28,7 @@ public class AuthService : IAuthService
     public async Task<AuthResponseDto> LoginAsync(LoginRequestDto request)
     {
         var user = await _userManager.FindByEmailAsync(request.Email);
-
+        // Change user info in db after refresh token updated
         if (user is null) throw new InvalidOperationException($"Incorrect email or password");
 
         var isPasswordValid = await _userManager.CheckPasswordAsync(user, request.Password);
@@ -67,10 +67,10 @@ public class AuthService : IAuthService
 
         var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.NameIdentifier, user.Id),
-            new Claim(ClaimTypes.Name , user.UserName!),
-            new Claim(ClaimTypes.Email , user.Email!),
-            new Claim(JwtRegisteredClaimNames.Jti , Guid.NewGuid().ToString())
+            new(ClaimTypes.NameIdentifier, user.Id),
+            new(ClaimTypes.Name , user.UserName!),
+            new(ClaimTypes.Email , user.Email!),
+            new(JwtRegisteredClaimNames.Jti , Guid.NewGuid().ToString())
         };
 
         var token = new JwtSecurityToken(
@@ -83,16 +83,13 @@ public class AuthService : IAuthService
 
         var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
 
-        //var (refreshToken, refreshJwt) =
-        //        await CreateRefreshTokenJwtAsync(user.Id, _config.RefreshTokenExpirationInDays);
         return new AuthResponseDto
         {
             Email = user.Email!,
             AccessToken = tokenString,
             ExpiredAt = DateTime.UtcNow.AddMinutes(_config.ExpirationInMinutes),
-            //RefreshToken = refreshJwt,
-            //RefreshTokenExpiredAt = refreshToken.ExpiresAt,
-            //Roles = roles
+            RefreshToken = Guid.NewGuid().ToString("N").ToLower(),
+            RefreshTokenExpiresAt = DateTimeOffset.UtcNow.AddDays(_config.RefreshTokenExpirationInDays),
         };
     }
 }

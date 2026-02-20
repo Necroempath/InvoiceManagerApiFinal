@@ -9,7 +9,7 @@ public class RegisterRequestDto
     /// User Name
     /// </summary>
     /// <example>John</example>
-    public string UserName { get; set; } = null!;
+    public string Name { get; set; } = null!;
 
     /// <summary>
     /// User Email
@@ -68,4 +68,6 @@ public class AuthResponseDto
     public string Email { get; set; } = null!;
     public string AccessToken { get; set; } = null!;
     public DateTimeOffset ExpiredAt { get; set; }
+    public string RefreshToken { get; set; }
+    public DateTimeOffset RefreshTokenExpiresAt { get; set; }
 }

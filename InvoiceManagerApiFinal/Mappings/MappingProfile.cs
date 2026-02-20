@@ -81,6 +81,7 @@ public class MappingProfile : Profile
 
         CreateMap<RegisterRequestDto, User>()
             .ForMember(dest => dest.Id, opt => opt.Ignore())
+            .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email))
             .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => DateTimeOffset.UtcNow))
             .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore());
 

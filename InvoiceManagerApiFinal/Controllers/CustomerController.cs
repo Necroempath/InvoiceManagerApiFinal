@@ -28,7 +28,6 @@ public class CustomerController : ControllerBase
     /// </returns>
     /// <response code="200">Customers were successfully retrieved.</response>
     [HttpGet("all")]
-    [Authorize]
     public async Task<ActionResult<ApiResponse<IEnumerable<CustomerResponseDto>>>> GetAll()
     {
         var customers = await _service.GetAllAsync();
