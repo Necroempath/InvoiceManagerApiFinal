@@ -1,7 +1,4 @@
 ﻿using AutoMapper;
-using InvoiceManagerApi.DTOs.CustomerDTOs;
-using InvoiceManagerApi.DTOs.InvoiceDTOs;
-using InvoiceManagerApi.DTOs.InvoiceRowDTOs;
 using InvoiceManagerApi.Enums;
 using InvoiceManagerApi.Models;
 using InvoiceManagerApiFinal.DTOs;

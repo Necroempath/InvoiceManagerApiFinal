@@ -1,6 +1,6 @@
 ﻿using InvoiceManagerApi.Common;
-using InvoiceManagerApi.DTOs.CustomerDTOs;
 using InvoiceManagerApi.Models;
+using InvoiceManagerApiFinal.DTOs;
 
 namespace InvoiceManagerApi.Services.Interfaces;
 

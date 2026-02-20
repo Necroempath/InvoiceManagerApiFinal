@@ -33,7 +33,7 @@ public class AuthController : ControllerBase
     {
         var response = await _authService.LoginAsync(request);
 
-        return Ok(ApiResponse<AuthResponseDto>.SuccessResponse(response));
+        return Ok(ApiResponse<AuthResponseDto>.SuccessResponse(response, "User login was successful"));
     }
 
     /// <summary>
@@ -52,6 +52,6 @@ public class AuthController : ControllerBase
     {
         var response = await _authService.RegisterAsync(request);
 
-        return Ok(ApiResponse<AuthResponseDto>.SuccessResponse(response));
+        return Ok(ApiResponse<AuthResponseDto>.SuccessResponse(response, "New User has registered"));
     }
 }

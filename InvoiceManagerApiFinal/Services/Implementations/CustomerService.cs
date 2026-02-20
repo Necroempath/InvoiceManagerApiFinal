@@ -2,9 +2,9 @@
 using Azure.Core;
 using InvoiceManagerApi.Common;
 using InvoiceManagerApi.Data;
-using InvoiceManagerApi.DTOs.CustomerDTOs;
 using InvoiceManagerApi.Models;
 using InvoiceManagerApi.Services.Interfaces;
+using InvoiceManagerApiFinal.DTOs;
 using Microsoft.EntityFrameworkCore;
 
 namespace InvoiceManagerApi.Services.Implementations;

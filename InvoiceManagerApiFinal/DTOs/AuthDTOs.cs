@@ -66,4 +66,6 @@ public class LoginRequestDto
 public class AuthResponseDto
 {
     public string Email { get; set; } = null!;
+    public string AccessToken { get; set; } = null!;
+    public DateTimeOffset ExpiredAt { get; set; }
 }

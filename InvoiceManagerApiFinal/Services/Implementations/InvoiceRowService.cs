@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using InvoiceManagerApi.Data;
-using InvoiceManagerApi.DTOs.InvoiceRowDTOs;
 using InvoiceManagerApi.Models;
 using InvoiceManagerApi.Services.Interfaces;
+using InvoiceManagerApiFinal.DTOs;
 using Microsoft.EntityFrameworkCore;
 
 namespace InvoiceManagerApi.Services.Implementations;

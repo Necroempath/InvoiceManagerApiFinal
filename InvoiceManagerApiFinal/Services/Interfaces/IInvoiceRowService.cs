@@ -1,4 +1,4 @@
-﻿using InvoiceManagerApi.DTOs.InvoiceRowDTOs;
+﻿using InvoiceManagerApiFinal.DTOs;
 
 namespace InvoiceManagerApi.Services.Interfaces;
 

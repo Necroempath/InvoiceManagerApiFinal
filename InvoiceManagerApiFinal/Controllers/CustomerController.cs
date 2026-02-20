@@ -1,6 +1,7 @@
 ﻿using InvoiceManagerApi.Common;
-using InvoiceManagerApi.DTOs.CustomerDTOs;
 using InvoiceManagerApi.Services.Interfaces;
+using InvoiceManagerApiFinal.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InvoiceManagerApi.Controllers;
@@ -27,6 +28,7 @@ public class CustomerController : ControllerBase
     /// </returns>
     /// <response code="200">Customers were successfully retrieved.</response>
     [HttpGet("all")]
+    [Authorize]
     public async Task<ActionResult<ApiResponse<IEnumerable<CustomerResponseDto>>>> GetAll()
     {
         var customers = await _service.GetAllAsync();
