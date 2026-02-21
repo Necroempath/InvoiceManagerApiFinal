@@ -15,6 +15,8 @@ using FluentValidation.AspNetCore;
 using FluentValidation;
 using InvoiceManagerApi.Data;
 using Microsoft.EntityFrameworkCore;
+using InvoiceManagerApiFinal.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace InvoiceManagerApiFinal.Extensions;
 
@@ -95,6 +97,20 @@ public static class ServiceCollectionExtensions
 
         return services;
     }
+    public static IServiceCollection AddIdentityAndDb(this IServiceCollection services)
+    {
+        services.AddIdentity<User, IdentityRole>(options =>
+        {
+            options.User.RequireUniqueEmail = true;
+            options.Password.RequireDigit = false;
+            options.Password.RequireLowercase = false;
+            options.Password.RequireUppercase = false;
+            options.Password.RequireNonAlphanumeric = false;
+        }).AddEntityFrameworkStores<InvoiceManagerDbContext>()
+          .AddDefaultTokenProviders();
+
+        return services;
+    }
 
     public static IServiceCollection AddAuthenticationAndAuthorization(
         this IServiceCollection services,
@@ -160,6 +176,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IInvoiceService, InvoiceService>();
         services.AddScoped<IInvoiceRowService, InvoiceRowService>();
         services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IUserService, UserService>();
 
         return services;
     }

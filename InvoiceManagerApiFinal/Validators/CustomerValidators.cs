@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using InvoiceManagerApiFinal.DTOs;
 
-namespace InvoiceManagerApi.Validators.CustomerValidators;
+namespace InvoiceManagerApiFinal.Validators;
 
 public class CreateCustomerValidator : AbstractValidator<CustomerCreateRequest>
 {

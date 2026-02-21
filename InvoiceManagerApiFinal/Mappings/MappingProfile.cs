@@ -86,5 +86,8 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore());
 
         CreateMap<User, AuthResponseDto>();
+
+        // User
+        CreateMap<User, UserResponseDto>();
     }
 }

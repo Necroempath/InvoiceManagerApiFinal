@@ -1,20 +1,12 @@
 using FluentValidation.AspNetCore;
-using InvoiceManagerApi.Data;
 using InvoiceManagerApiFinal.Extensions;
 using InvoiceManagerApiFinal.Middlewares;
-using InvoiceManagerApiFinal.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.AddIdentity<User, IdentityRole>(options =>
-{
-    options.User.RequireUniqueEmail = true;
-}).AddEntityFrameworkStores<InvoiceManagerDbContext>();
-
 builder.Services.AddSwagger()
+    .AddIdentityAndDb()
     .AddAuthenticationAndAuthorization(builder.Configuration)
     .AddInvoiceManagerDbContext(builder.Configuration)
     .AddFluentValidation()
@@ -29,7 +21,6 @@ if (app.Environment.IsDevelopment())
         options =>
         {
             options.SwaggerEndpoint("/swagger/v1/swagger.json", "Invoice Manager API v1");
-            //options.RoutePrefix = string.Empty;
             options.DisplayRequestDuration();
             options.EnableFilter();
             options.EnableTryItOutByDefault();

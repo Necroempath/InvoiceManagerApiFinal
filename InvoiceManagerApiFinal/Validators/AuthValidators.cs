@@ -13,9 +13,7 @@ public class LoginValidator : AbstractValidator<LoginRequestDto>
 
         RuleFor(x => x.Password)
             .NotEmpty().WithMessage("Password is required")
-            .MinimumLength(6).WithMessage("Password must be at least 6 characters long")
-            .Matches(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$")
-            .WithMessage("Password must contain at least 1 digit, 1 lower [a-z] and 1 upper [A-Z] case characters");
+            .CustomPassword().WithMessage("Password must contain [a-z] [A-Z] digits and be at least 6 characters long");
     }
 }
 
@@ -29,9 +27,7 @@ public class RegisterValidator : AbstractValidator<RegisterRequestDto>
 
         RuleFor(x => x.Password)
             .NotEmpty().WithMessage("Password is required")
-            .MinimumLength(6).WithMessage("Password must be at least 6 characters long")
-            .Matches(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$")
-            .WithMessage("Password must contain at least 1 digit, 1 lower [a-z] and 1 upper [A-Z] case characters");
+            .CustomPassword().WithMessage("Password must contain [a-z] [A-Z] digits and be at least 6 characters long");
 
         RuleFor(x => x.ConfirmPassword)
             .NotEmpty().WithMessage("Confirm Password is required")

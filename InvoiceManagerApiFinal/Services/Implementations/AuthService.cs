@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Azure;
+using FluentValidation;
 using InvoiceManagerApiFinal.Config;
 using InvoiceManagerApiFinal.DTOs;
 using InvoiceManagerApiFinal.Models;
@@ -47,14 +48,16 @@ public class AuthService : IAuthService
 
         if (!result.Succeeded)
         {
-            var builder = new StringBuilder();
+            var errors = result.Errors
+                .GroupBy(e => e.Code)
+                .ToDictionary(
+                    g => g.Key,
+                    g => g.Select(e => e.Description).ToArray()
+                );
 
-            foreach (var error in result.Errors)
-            {              
-                builder.AppendLine(error.Description);
-            }
-
-            throw new InvalidOperationException(builder.ToString());
+            throw new ValidationException(errors.SelectMany(kv =>
+                kv.Value.Select(v => new FluentValidation.Results.ValidationFailure(kv.Key, v))
+            ));
         }
 
         return await RefreshTokenAsync(user);
@@ -63,7 +66,7 @@ public class AuthService : IAuthService
     public async Task<AuthResponseDto> RefreshAsync(RefreshTokenRequest request)
     {
         var principal = GetPrincipalFromAccessToken(request.AcessToken);
-        var userId = principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var userId = principal.FindFirstValue(ClaimTypes.NameIdentifier);
 
         var user = await _userManager.FindByIdAsync(userId!);
 
