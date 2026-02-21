@@ -21,10 +21,10 @@ public class AuthController : ControllerBase
     /// Registers a new user with the provided registration details.
     /// </summary>
     /// <remarks>
-    /// Returns user's email
+    /// Returns user's email, refresh and access tokens
     /// </remarks>
     /// <returns>
-    /// Email of user wrapped in ApiResponse.
+    /// Email, refresh and access tokens of user wrapped in ApiResponse.
     /// </returns>
     /// <response code="200">User was successfully logged in.</response>
     /// <response code="401">Invalid email or password.</response>
@@ -40,10 +40,10 @@ public class AuthController : ControllerBase
     /// Login a user with the provided authentication details.
     /// </summary>
     /// <remarks>
-    /// Returns user's email
+    /// Returns user's email, refresh and access tokens
     /// </remarks>
     /// <returns>
-    /// Email of user wrapped in ApiResponse.
+    /// Email, refresh and access tokens of user wrapped in ApiResponse.
     /// </returns>
     /// <response code="200">New User account was successfully created.</response>
     /// <response code="401">User with such email already exists</response>
@@ -53,5 +53,24 @@ public class AuthController : ControllerBase
         var response = await _authService.RegisterAsync(request);
 
         return Ok(ApiResponse<AuthResponseDto>.SuccessResponse(response, "New User has registered"));
+    }
+
+    /// <summary>
+    /// Refresh both refresh and access tokens if they prove valid.
+    /// </summary>
+    /// <remarks>
+    /// Returns user's email, refresh and access tokens
+    /// </remarks>
+    /// <returns>
+    /// Email, refresh and access tokens of user wrapped in ApiResponse.
+    /// </returns>
+    /// <response code="200">Tokens were refreshed.</response>
+    /// <response code="401">Invalid token exception</response>
+    [HttpPost("refresh")]
+    public async Task<ActionResult<ApiResponse<AuthResponseDto>>> Refresh([FromBody] RefreshTokenRequest request)
+    {
+        var response = await _authService.RefreshAsync(request);
+
+        return Ok(ApiResponse<AuthResponseDto>.SuccessResponse(response, "Tokens refreshed"));
     }
 }

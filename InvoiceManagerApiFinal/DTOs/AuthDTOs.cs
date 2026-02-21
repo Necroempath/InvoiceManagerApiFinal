@@ -71,3 +71,19 @@ public class AuthResponseDto
     public string RefreshToken { get; set; }
     public DateTimeOffset RefreshTokenExpiresAt { get; set; }
 }
+
+/// <summary>
+/// DTO for token refresh request. Uses for POST requests
+/// </summary>
+public class RefreshTokenRequest
+{
+    /// <summary>
+    /// Refresh Token
+    /// </summary>
+    public string RefreshToken { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Access Token
+    /// </summary>
+    public string AcessToken { get; set; } = string.Empty;
+}

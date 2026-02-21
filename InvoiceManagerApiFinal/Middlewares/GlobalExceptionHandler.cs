@@ -29,7 +29,7 @@ public class GlobalExceptionMiddleware
 
     private async Task HandleExceptionAsync(HttpContext context, Exception ex)
     {
-        _logger.LogError(ex, "Unhandled exception occured while processing request");
+        _logger.LogError(ex, "Unhandled exception occurred while processing request");
 
         context.Response.ContentType = "application/json+problem";
 
@@ -50,7 +50,7 @@ public class GlobalExceptionMiddleware
             InvalidOperationException
             => (400, CreateProblemDetails(context, 400, "Invalid Request", ex.Message)),
 
-            _ => (500, CreateProblemDetails(context, 500, "An unexpected error occured", "An unexpected error occured while processing request"))
+            _ => (500, CreateProblemDetails(context, 500, "An unexpected error occurred", "An unexpected error occurred while processing request"))
         };
 
         context.Response.StatusCode = statusCode;
