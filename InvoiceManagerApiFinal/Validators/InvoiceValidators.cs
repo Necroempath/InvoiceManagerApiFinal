@@ -14,8 +14,7 @@ public class CreateInvoiceValidator : AbstractValidator<InvoiceCreateRequest>
 
         RuleFor(i => i.EndDate)
             .NotEmpty().WithMessage("End Date is required")
-            .LessThan(DateTime.UtcNow).WithMessage("End Date must be less than current date.")
-            .GreaterThan(i => i.EndDate).WithMessage("End Date must be greater than Start Date.");
+            .LessThan(DateTime.UtcNow).WithMessage("End Date must be less than current date.");
 
         RuleFor(i => i.CustomerId)
             .NotEmpty().WithMessage("CustomerId is required")
